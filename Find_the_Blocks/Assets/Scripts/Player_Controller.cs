@@ -12,6 +12,7 @@ public class Player_Controller : MonoBehaviour {
 	//public Text loseText;
 	public Text endTimeText;
 	public Text readyText;
+	public GameObject Ramp;
 
 	private Rigidbody rb;
 	private int count;
@@ -54,6 +55,14 @@ public class Player_Controller : MonoBehaviour {
 
 			rb.AddForce (movement * speed);
 		}
+		if (count >= 1)
+		{
+			Ramp.SetActive(false);
+		}
+		else if (count == 0)
+		{
+			Ramp.SetActive(true);
+		}
 	}
 
     void OnTriggerEnter(Collider other)
@@ -64,6 +73,14 @@ public class Player_Controller : MonoBehaviour {
 			count = count - 1;
 			SetCountText ();
 		}
+		else if (other.gameObject.CompareTag("Finish") && count == 0)
+		{
+			winText.text = "You win!";
+			timetext = time.ToString ();
+			endTimeText.text = "Your time: " + timetext;
+			timeset = (false);
+			
+		}
 		/* else if (other.gameObject.CompareTag("Pick-up") && time <= 0)
 		{
 			time = 0;
@@ -71,16 +88,9 @@ public class Player_Controller : MonoBehaviour {
 	}
 	void SetCountText ()
 	{
+		
 		countText.text = "Cubes left: " + count.ToString ();
-		if (count <= 0)
-		{
-			winText.text = "You win!";
-			//time = 1000;
-			timeset = (false);
-			timetext = time.ToString ();
-			endTimeText.text = "Your time: " + timetext;
-			
-		}
+
 	}
 	void SetTimeText ()
 	{
